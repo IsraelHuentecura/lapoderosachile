@@ -1,0 +1,233 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+// Enlace a redes. Cambiá el handle si el de Instagram es distinto.
+const INSTAGRAM_URL = 'https://www.instagram.com/lapoderosachile'
+
+// Qué hace la organización. Texto inicial editable.
+const ejes = [
+  {
+    titulo: 'Organización barrial',
+    texto:
+      'Construimos comunidad desde los territorios: asambleas, encuentros y trabajo colectivo en los barrios.',
+  },
+  {
+    titulo: 'Derechos y dignidad',
+    texto:
+      'Defendemos los derechos de las y los vecinos, y peleamos por condiciones de vida dignas para todas y todos.',
+  },
+  {
+    titulo: 'Cultura y participación',
+    texto:
+      'Impulsamos espacios culturales, deportivos y educativos abiertos, hechos entre todas y todos.',
+  },
+]
+---
+
+<Layout title="La Poderosa Chile">
+  <header class="hero">
+    <div class="hero__inner">
+      <img
+        class="hero__logo"
+        src="/logo.png"
+        alt="La Poderosa Chile"
+        width="1999"
+        height="1414"
+      />
+      <p class="hero__lema">Organización social y popular</p>
+      <p class="lead">
+        Somos una organización de base que trabaja en los barrios para construir
+        comunidad, defender derechos y abrir espacios de participación.
+      </p>
+      <a class="btn" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor">
+          <path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.23.06 1.27.07 1.65.07 4.86s0 3.6-.07 4.86c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.05.36-2.23.41-1.27.06-1.65.07-4.9.07s-3.6 0-4.86-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.05-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.86c.05-1.18.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.05-.36 2.23-.41C8.46 2.2 8.84 2.2 12 2.2Zm0 1.95c-3.15 0-3.52 0-4.76.07-.9.04-1.39.2-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.13.32-.28.81-.32 1.71-.06 1.24-.07 1.61-.07 4.76s0 3.52.07 4.76c.04.9.2 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.13.81.28 1.71.32 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c.9-.04 1.39-.2 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.13-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.04-.9-.2-1.39-.32-1.71a2.85 2.85 0 0 0-.69-1.06 2.85 2.85 0 0 0-1.06-.69c-.32-.13-.81-.28-1.71-.32-1.24-.06-1.61-.07-4.76-.07Zm0 3.32a4.53 4.53 0 1 1 0 9.06 4.53 4.53 0 0 1 0-9.06Zm0 1.95a2.58 2.58 0 1 0 0 5.16 2.58 2.58 0 0 0 0-5.16Zm4.74-3.3a1.06 1.06 0 1 1 0 2.12 1.06 1.06 0 0 1 0-2.12Z"></path>
+        </svg>
+        Seguinos en Instagram
+      </a>
+    </div>
+    <div class="hero__franja" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <section class="que" id="que-hacemos">
+      <h2><span class="mark">Qué</span> hacemos</h2>
+      <div class="grid">
+        {
+          ejes.map((eje) => (
+            <article class="card">
+              <h3>{eje.titulo}</h3>
+              <p>{eje.texto}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Sumate</h2>
+      <p>
+        Acercate, participá y conocé en qué andamos. Las novedades y
+        convocatorias las publicamos en nuestro Instagram.
+      </p>
+      <a class="btn btn--dark" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+        @lapoderosachile
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <p class="footer__name">LA PODEROSA CHILE</p>
+    <p class="muted">Hecho entre todas y todos · {new Date().getFullYear()}</p>
+  </footer>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    background: #fff;
+    padding: clamp(2.5rem, 7vw, 5rem) 1.5rem clamp(3rem, 7vw, 5rem);
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .hero__logo {
+    width: min(100%, 620px);
+    height: auto;
+    margin: 0 auto 0.5rem;
+    display: block;
+  }
+  .hero__lema {
+    font-family: var(--cartel);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+    color: var(--negro);
+  }
+  .hero__lema::after {
+    content: '';
+    display: block;
+    width: 64px;
+    height: 5px;
+    background: var(--rojo);
+    margin: 0.85rem auto 0;
+  }
+  .lead {
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+    max-width: 56ch;
+    margin: 1.4rem auto 2.1rem;
+    color: #2a2a2a;
+  }
+  .hero__franja {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 8px;
+    background: linear-gradient(
+      90deg,
+      var(--negro) 0 33.3%,
+      #fff 33.3% 66.6%,
+      var(--rojo) 66.6% 100%
+    );
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--rojo);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    padding: 0.95rem 1.6rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    transition:
+      transform 0.15s ease,
+      filter 0.15s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+  }
+  .btn--dark {
+    background: var(--negro);
+  }
+
+  main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: clamp(3rem, 8vw, 5.5rem) 1.5rem;
+  }
+  h2 {
+    font-family: var(--cartel);
+    font-size: clamp(2.2rem, 6vw, 3.4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 1.75rem;
+  }
+  .mark {
+    color: var(--rojo);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.25rem;
+  }
+  .card {
+    background: #fff;
+    border: 2px solid var(--negro);
+    border-radius: 6px;
+    padding: 1.7rem;
+    box-shadow: 6px 6px 0 var(--rojo);
+  }
+  .card h3 {
+    font-family: var(--cartel);
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .card p {
+    color: var(--gris);
+  }
+
+  .cta {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    background: var(--negro);
+    color: var(--crema);
+    border-radius: 8px;
+    padding: clamp(2rem, 5vw, 3.25rem);
+    text-align: center;
+  }
+  .cta h2 {
+    color: #fff;
+  }
+  .cta p {
+    color: #d8d3ca;
+    margin: 0.5rem auto 1.9rem;
+    max-width: 50ch;
+  }
+
+  footer {
+    border-top: 2px solid var(--negro);
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+  }
+  .footer__name {
+    font-family: var(--cartel);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1.3rem;
+  }
+  .muted {
+    color: var(--gris);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+  }
+</style>
