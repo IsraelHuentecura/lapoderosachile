@@ -444,22 +444,22 @@ const ejes = [
     )
   } else {
     // ── Intro del hero ──
+    // Usamos fromTo (no from) con valores de inicio y fin explícitos: el CSS
+    // deja estos elementos en opacity:0 para evitar el parpadeo inicial, y
+    // `from` los leería como destino 0 (quedarían invisibles).
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
     intro
-      .from('[data-hero-logo]', {
-        opacity: 0,
-        scale: 0.86,
-        y: 12,
-        duration: 1.1,
-        ease: 'power4.out',
-      })
-      .to('[data-hero-logo]', { opacity: 1, duration: 0.01 }, 0)
-      .from(
+      .fromTo(
+        '[data-hero-logo]',
+        { opacity: 0, scale: 0.86, y: 12 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'power4.out' },
+      )
+      .fromTo(
         '[data-hero-item]',
-        { opacity: 0, y: 26, duration: 0.7, stagger: 0.13 },
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.7, stagger: 0.13 },
         '-=0.5',
       )
-      .to('[data-hero-item]', { opacity: 1, duration: 0.01, stagger: 0.13 }, '<')
 
     // ── Marquee infinito ──
     const track = document.querySelector<HTMLElement>('[data-marquee]')
