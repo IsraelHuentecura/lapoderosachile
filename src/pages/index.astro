@@ -155,7 +155,7 @@ const ejes = [
     <!-- ░░ FRASE ░░ -->
     <section class="manifiesto">
       <p class="manifiesto__texto" data-reveal-words>
-        Señalamos siempre lo que falta, con los pies en la tierra.
+        Desde el barrio, con el barrio y para el barrio.
       </p>
     </section>
 
@@ -496,7 +496,7 @@ const ejes = [
   // Parte la frase del manifiesto en palabras envueltas en <span>.
   const manifiesto = document.querySelector<HTMLElement>('[data-reveal-words]')
   if (manifiesto) {
-    const rojas = new Set(['falta,', 'tierra.'])
+    const rojas = new Set(['barrio,', 'barrio', 'barrio.'])
     manifiesto.innerHTML = manifiesto.textContent!
       .trim()
       .split(/\s+/)
