@@ -172,7 +172,7 @@ const ejes = [
         Acércate, participa y conoce en qué estamos. Las novedades y
         convocatorias las publicamos en nuestro Instagram.
       </p>
-      <a class="btn btn--light" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
+      <a class="btn" href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
         @lapoderosachile
       </a>
     </section>
@@ -188,10 +188,15 @@ const ejes = [
   /* ░░ HERO ░░ */
   .hero {
     position: relative;
-    background: #fff;
+    background: #d8d3c8 url('/ladrillo.svg') repeat;
+    background-size: 220px auto;
     padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(3.5rem, 8vw, 5.5rem);
     text-align: center;
     overflow: hidden;
+  }
+  /* funde el fondo blanco del logo sobre la pared (deja negro y rojo) */
+  .hero__logo {
+    mix-blend-mode: multiply;
   }
   .hero__inner {
     position: relative;
@@ -441,19 +446,22 @@ const ejes = [
   /* ░░ CTA ░░ */
   .cta {
     margin-top: 0;
-    background: var(--negro);
-    color: var(--crema);
-    border-radius: 10px;
+    background: #cdb083 url('/carton.svg');
+    background-size: cover;
+    color: #1f1a12;
+    border: 3px solid var(--negro);
+    box-shadow: 9px 9px 0 var(--negro);
+    border-radius: 8px;
     padding: clamp(2.25rem, 6vw, 3.75rem);
     text-align: center;
   }
   .cta h2 {
     font-family: var(--marca);
     font-size: clamp(2rem, 6vw, 3rem);
-    color: #fff;
+    color: var(--negro);
   }
   .cta p {
-    color: #d8d3ca;
+    color: #3a3120;
     margin: 0.6rem auto 1.9rem;
     max-width: 50ch;
   }
