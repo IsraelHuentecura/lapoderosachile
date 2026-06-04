@@ -4,37 +4,50 @@ import Layout from '../layouts/Layout.astro'
 // Enlace a redes. Cambia el handle si el de Instagram es distinto.
 const INSTAGRAM_URL = 'https://www.instagram.com/lapoderosachile'
 
-// Palabras del marquee (cinta en movimiento).
+// Cinta en movimiento (sin estrellas).
 const palabras = [
   'COMUNIDAD',
-  'DERECHOS',
+  'EDUCACIÓN POPULAR',
   'BARRIO',
-  'DIGNIDAD',
-  'PARTICIPACIÓN',
-  'PUEBLO',
-  'ORGANIZACIÓN',
+  'AUTOGESTIÓN',
+  'ACCIÓN COLECTIVA',
   'TERRITORIO',
+  'DIGNIDAD',
 ]
 
-// Qué hace la organización. Texto inicial editable.
+// Datos del movimiento.
+const stats = [
+  { n: '2004', t: 'desde las villas' },
+  { n: '11', t: 'países de la región' },
+  { n: '+100', t: 'barrios organizados' },
+  { n: '20', t: 'asentamientos' },
+]
+
+// Ejes de trabajo.
 const ejes = [
   {
     n: '01',
-    titulo: 'Organización barrial',
+    titulo: 'Educación popular',
     texto:
-      'Construimos comunidad desde los territorios: asambleas, encuentros y trabajo colectivo en cada barrio.',
+      'Aprendemos y enseñamos entre todas y todos, desde la experiencia del barrio y la palabra compartida.',
   },
   {
     n: '02',
-    titulo: 'Derechos y dignidad',
+    titulo: 'Trabajo comunitario',
     texto:
-      'Defendemos los derechos de las vecinas y los vecinos, y luchamos por condiciones de vida dignas para todas y todos.',
+      'Asambleas, comedores y proyectos autogestionados: la comunidad al servicio de la comunidad.',
   },
   {
     n: '03',
-    titulo: 'Cultura y participación',
+    titulo: 'Deporte y cultura',
     texto:
-      'Impulsamos espacios culturales, deportivos y educativos abiertos, hechos entre todas y todos.',
+      'Espacios abiertos donde el deporte y la cultura se vuelven herramientas de encuentro y transformación.',
+  },
+  {
+    n: '04',
+    titulo: 'Comunicación popular',
+    texto:
+      'El motor que proyecta las voces de los barrios para disputar la agenda pública y contar lo que falta.',
   },
 ]
 ---
@@ -42,12 +55,6 @@ const ejes = [
 <Layout title="La Poderosa Chile">
   <!-- ░░ HERO ░░ -->
   <header class="hero" data-hero>
-    <svg class="estrella" data-parallax viewBox="0 0 100 100" aria-hidden="true">
-      <path
-        d="M50 2 61.8 38.2 100 38.2 69.1 60.5 80.9 96.8 50 74.5 19.1 96.8 30.9 60.5 0 38.2 38.2 38.2Z"
-        fill="#e10600"></path>
-    </svg>
-
     <div class="hero__inner">
       <img
         class="hero__logo"
@@ -57,10 +64,11 @@ const ejes = [
         width="1999"
         height="1414"
       />
-      <p class="hero__lema" data-hero-item>Organización social y popular</p>
+      <p class="hero__lema" data-hero-item>La comunidad al servicio de la comunidad</p>
       <p class="lead" data-hero-item>
-        Trabajamos en los barrios para construir comunidad, defender derechos y
-        abrir espacios de participación.
+        Somos parte de <strong>La Poderosa</strong>, un movimiento social
+        latinoamericano que organiza los barrios desde la autogestión y la acción
+        colectiva. En Chile sumamos nuestra voz a esa red continental.
       </p>
       <a
         class="btn"
@@ -85,7 +93,7 @@ const ejes = [
         [...palabras, ...palabras].map((p) => (
           <span class="marquee__item">
             {p}
-            <span class="marquee__star">★</span>
+            <span class="marquee__sep">/</span>
           </span>
         ))
       }
@@ -93,16 +101,44 @@ const ejes = [
   </div>
 
   <main>
-    <!-- ░░ MANIFIESTO ░░ -->
-    <section class="manifiesto">
-      <p class="manifiesto__texto" data-reveal-words>
-        Desde el barrio, con el barrio y para el barrio.
-      </p>
+    <!-- ░░ QUIÉNES SOMOS ░░ -->
+    <section class="somos" id="quienes-somos">
+      <h2 class="seccion-title" data-reveal>Quiénes somos</h2>
+      <div class="somos__texto" data-reveal>
+        <p>
+          La Poderosa es un movimiento social que nació en <strong>2004</strong>
+          en las villas de Argentina y hoy es una comunidad latinoamericana
+          presente en <strong>11 países</strong>. Somos
+          <em>la comunidad al servicio de la comunidad</em>: una herramienta
+          organizativa que promueve procesos participativos y democráticos en
+          los barrios, desde la autogestión y la acción colectiva, con un solo
+          objetivo: transformar nuestra realidad.
+        </p>
+        <p>
+          En Chile tejemos esa misma red, desde la educación popular, el trabajo
+          comunitario, el deporte y la cultura. Porque creemos que la
+          comunicación es una herramienta clave para conseguir cambios reales:
+          el motor que proyecta las voces de los barrios para disputar la
+          agenda pública.
+        </p>
+      </div>
+    </section>
+
+    <!-- ░░ STATS ░░ -->
+    <section class="stats" data-reveal>
+      {
+        stats.map((s) => (
+          <div class="stat" data-stat>
+            <span class="stat__n">{s.n}</span>
+            <span class="stat__t">{s.t}</span>
+          </div>
+        ))
+      }
     </section>
 
     <!-- ░░ QUÉ HACEMOS ░░ -->
     <section class="que" id="que-hacemos">
-      <h2 class="seccion-title" data-reveal><span class="mark">Qué</span> hacemos</h2>
+      <h2 class="seccion-title" data-reveal>Qué hacemos</h2>
       <div class="grid">
         {
           ejes.map((eje) => (
@@ -114,6 +150,13 @@ const ejes = [
           ))
         }
       </div>
+    </section>
+
+    <!-- ░░ FRASE ░░ -->
+    <section class="manifiesto">
+      <p class="manifiesto__texto" data-reveal-words>
+        Señalamos siempre lo que falta, con los pies en la tierra.
+      </p>
     </section>
 
     <!-- ░░ CTA ░░ -->
@@ -131,7 +174,7 @@ const ejes = [
 
   <footer>
     <p class="footer__name">LA PODEROSA CHILE</p>
-    <p class="muted">Hecho entre todas y todos · {new Date().getFullYear()}</p>
+    <p class="muted">Comunidad al servicio de la comunidad · {new Date().getFullYear()}</p>
   </footer>
 </Layout>
 
@@ -144,15 +187,6 @@ const ejes = [
     text-align: center;
     overflow: hidden;
   }
-  .estrella {
-    position: absolute;
-    top: -4%;
-    right: -6%;
-    width: clamp(180px, 32vw, 420px);
-    opacity: 0.07;
-    pointer-events: none;
-    will-change: transform;
-  }
   .hero__inner {
     position: relative;
     z-index: 1;
@@ -162,29 +196,32 @@ const ejes = [
   .hero__logo {
     width: min(100%, 640px);
     height: auto;
-    margin: 0 auto 0.5rem;
+    margin: 0 auto 0.75rem;
     display: block;
     will-change: transform, opacity;
   }
   .hero__lema {
-    font-family: var(--cartel);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: clamp(1.1rem, 3.5vw, 1.7rem);
+    font-family: var(--marca);
+    font-size: clamp(1.3rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    color: var(--negro);
   }
   .hero__lema::after {
     content: '';
     display: block;
-    width: 64px;
+    width: 70px;
     height: 5px;
     background: var(--rojo);
-    margin: 0.85rem auto 0;
+    margin: 1rem auto 0;
   }
   .lead {
-    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
-    max-width: 54ch;
-    margin: 1.4rem auto 2.1rem;
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    max-width: 58ch;
+    margin: 1.5rem auto 2.2rem;
     color: #2a2a2a;
+  }
+  .lead strong {
+    font-weight: 800;
   }
   .hero__franja {
     position: absolute;
@@ -248,57 +285,89 @@ const ejes = [
   .marquee__item {
     font-family: var(--cartel);
     text-transform: uppercase;
-    font-size: clamp(1.3rem, 3.5vw, 2.1rem);
+    font-size: clamp(1.2rem, 3.2vw, 1.9rem);
     letter-spacing: 0.04em;
     padding: 0 1.1rem;
     display: inline-flex;
     align-items: center;
-    gap: 1.1rem;
+    gap: 1.2rem;
     white-space: nowrap;
   }
-  .marquee__star {
+  .marquee__sep {
     color: var(--rojo);
-    font-size: 0.8em;
+    font-weight: 400;
   }
 
   /* ░░ LAYOUT MAIN ░░ */
   main {
     max-width: 1000px;
     margin: 0 auto;
-    padding: clamp(3.5rem, 9vw, 6.5rem) 1.5rem;
+    padding: clamp(3.5rem, 9vw, 6rem) 1.5rem;
+  }
+  .seccion-title {
+    font-family: var(--marca);
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    margin-bottom: 1.75rem;
+    line-height: 1.1;
+  }
+  .seccion-title::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 14px;
+    background: var(--rojo);
+    margin-right: 0.5rem;
+    transform: skewX(-12deg) translateY(-2px);
   }
 
-  /* ░░ MANIFIESTO ░░ */
-  .manifiesto {
+  /* ░░ QUIÉNES SOMOS ░░ */
+  .somos__texto {
+    max-width: 70ch;
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    color: #2a2a2a;
+  }
+  .somos__texto p + p {
+    margin-top: 1.1rem;
+  }
+  .somos__texto em {
+    font-style: normal;
+    background: linear-gradient(transparent 62%, rgba(225, 6, 0, 0.22) 0);
+    font-weight: 600;
+  }
+  .somos__texto strong {
+    font-weight: 800;
+  }
+
+  /* ░░ STATS ░░ */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: clamp(2.5rem, 6vw, 4rem) 0;
+    padding: clamp(1.5rem, 4vw, 2.25rem) 1rem;
+    background: var(--negro);
+    border-radius: 10px;
     text-align: center;
-    padding: 0 0 clamp(3rem, 8vw, 5.5rem);
   }
-  .manifiesto__texto {
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .stat__n {
     font-family: var(--cartel);
-    text-transform: uppercase;
-    font-size: clamp(2rem, 7vw, 4.2rem);
-    line-height: 1.04;
-    letter-spacing: 0.005em;
-    max-width: 16ch;
-    margin: 0 auto;
-  }
-  .manifiesto__texto :global(.word) {
-    display: inline-block;
-  }
-  .manifiesto__texto :global(.word--rojo) {
+    font-size: clamp(2.2rem, 7vw, 3.4rem);
     color: var(--rojo);
+    line-height: 1;
+  }
+  .stat__t {
+    color: var(--crema);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   /* ░░ QUÉ HACEMOS ░░ */
-  .seccion-title {
-    font-family: var(--cartel);
-    font-size: clamp(2.2rem, 6vw, 3.4rem);
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
-  .mark {
-    color: var(--rojo);
-  }
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -326,49 +395,51 @@ const ejes = [
     letter-spacing: 0.1em;
   }
   .card h3 {
-    font-family: var(--cartel);
-    text-transform: uppercase;
-    font-size: 1.35rem;
-    letter-spacing: 0.02em;
-    margin: 0.35rem 0 0.5rem;
+    font-family: var(--marca);
+    font-size: 1.4rem;
+    margin: 0.35rem 0 0.6rem;
   }
   .card p {
     color: var(--gris);
   }
 
+  /* ░░ MANIFIESTO ░░ */
+  .manifiesto {
+    text-align: center;
+    padding: clamp(3.5rem, 9vw, 6rem) 0 clamp(1rem, 3vw, 2rem);
+  }
+  .manifiesto__texto {
+    font-family: var(--marca);
+    font-size: clamp(1.7rem, 5.5vw, 3.2rem);
+    line-height: 1.18;
+    max-width: 18ch;
+    margin: 0 auto;
+  }
+  .manifiesto__texto :global(.word) {
+    display: inline-block;
+  }
+  .manifiesto__texto :global(.word--rojo) {
+    color: var(--rojo);
+  }
+
   /* ░░ CTA ░░ */
   .cta {
-    margin-top: clamp(3rem, 7vw, 4.5rem);
+    margin-top: clamp(2rem, 5vw, 3rem);
     background: var(--negro);
     color: var(--crema);
     border-radius: 10px;
     padding: clamp(2.25rem, 6vw, 3.75rem);
     text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta::before {
-    content: '★';
-    position: absolute;
-    right: -0.2em;
-    bottom: -0.35em;
-    font-size: 11rem;
-    line-height: 1;
-    color: var(--rojo);
-    opacity: 0.16;
   }
   .cta h2 {
-    font-family: var(--cartel);
-    text-transform: uppercase;
+    font-family: var(--marca);
     font-size: clamp(2rem, 6vw, 3rem);
     color: #fff;
-    position: relative;
   }
   .cta p {
     color: #d8d3ca;
     margin: 0.6rem auto 1.9rem;
     max-width: 50ch;
-    position: relative;
   }
 
   /* ░░ FOOTER ░░ */
@@ -378,10 +449,8 @@ const ejes = [
     text-align: center;
   }
   .footer__name {
-    font-family: var(--cartel);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 1.3rem;
+    font-family: var(--marca);
+    font-size: 1.5rem;
   }
   .muted {
     color: var(--gris);
@@ -389,11 +458,12 @@ const ejes = [
     margin-top: 0.25rem;
   }
 
-  /* Estado inicial para animar (solo si hay JS + sin reduced-motion) */
+  /* Estados iniciales para animar (solo con JS y sin reduced-motion) */
   :global(.gsap-ready) [data-hero-item],
   :global(.gsap-ready) [data-hero-logo],
   :global(.gsap-ready) [data-reveal],
   :global(.gsap-ready) [data-card],
+  :global(.gsap-ready) [data-stat],
   :global(.gsap-ready) .manifiesto__texto :global(.word) {
     opacity: 0;
   }
@@ -403,6 +473,7 @@ const ejes = [
     :global(.gsap-ready) [data-hero-logo],
     :global(.gsap-ready) [data-reveal],
     :global(.gsap-ready) [data-card],
+    :global(.gsap-ready) [data-stat],
     :global(.gsap-ready) .manifiesto__texto :global(.word) {
       opacity: 1;
     }
@@ -422,10 +493,10 @@ const ejes = [
   // se ve completa igual.
   document.documentElement.classList.add('gsap-ready')
 
-  // Parte las frases del manifiesto en palabras envueltas en <span>.
+  // Parte la frase del manifiesto en palabras envueltas en <span>.
   const manifiesto = document.querySelector<HTMLElement>('[data-reveal-words]')
   if (manifiesto) {
-    const rojas = new Set(['barrio.', 'barrio,', 'barrio'])
+    const rojas = new Set(['falta,', 'tierra.'])
     manifiesto.innerHTML = manifiesto.textContent!
       .trim()
       .split(/\s+/)
@@ -437,16 +508,12 @@ const ejes = [
   }
 
   if (reduce) {
-    // Sin animaciones: aseguramos visibilidad y salimos.
     gsap.set(
-      '[data-hero-item], [data-hero-logo], [data-reveal], [data-card], .word',
+      '[data-hero-item], [data-hero-logo], [data-reveal], [data-card], [data-stat], .word',
       { opacity: 1 },
     )
   } else {
-    // ── Intro del hero ──
-    // Usamos fromTo (no from) con valores de inicio y fin explícitos: el CSS
-    // deja estos elementos en opacity:0 para evitar el parpadeo inicial, y
-    // `from` los leería como destino 0 (quedarían invisibles).
+    // ── Intro del hero (fromTo para no heredar el opacity:0 del CSS) ──
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
     intro
       .fromTo(
@@ -464,49 +531,24 @@ const ejes = [
     // ── Marquee infinito ──
     const track = document.querySelector<HTMLElement>('[data-marquee]')
     if (track) {
-      // El track tiene la lista duplicada: desplazar -50% = un ciclo perfecto.
-      gsap.to(track, {
-        xPercent: -50,
-        repeat: -1,
-        duration: 22,
-        ease: 'none',
-      })
+      gsap.to(track, { xPercent: -50, repeat: -1, duration: 24, ease: 'none' })
     }
 
-    // ── Estrella decorativa: parallax + giro lento ──
-    const estrella = document.querySelector<HTMLElement>('[data-parallax]')
-    if (estrella) {
-      gsap.to(estrella, {
-        yPercent: 38,
-        rotation: 45,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      })
-    }
+    // ── Frase del manifiesto: palabras que suben ──
+    gsap.fromTo(
+      '.manifiesto__texto .word',
+      { opacity: 0, y: 32 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.07,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.manifiesto', start: 'top 80%' },
+      },
+    )
 
-    // ── Manifiesto: palabras que suben ──
-    gsap.to('.manifiesto__texto .word', {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: '.manifiesto', start: 'top 78%' },
-    })
-    gsap.from('.manifiesto__texto .word', {
-      y: 32,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: '.manifiesto', start: 'top 78%' },
-    })
-
-    // ── Reveals genéricos al hacer scroll ──
+    // ── Reveals genéricos ──
     gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((el) => {
       gsap.fromTo(
         el,
@@ -516,12 +558,26 @@ const ejes = [
           y: 0,
           duration: 0.7,
           ease: 'power3.out',
-          scrollTrigger: { trigger: el, start: 'top 85%' },
+          scrollTrigger: { trigger: el, start: 'top 86%' },
         },
       )
     })
 
-    // ── Tarjetas: aparecen escalonadas ──
+    // ── Stats escalonados ──
+    gsap.fromTo(
+      '[data-stat]',
+      { opacity: 0, y: 24 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.55,
+        stagger: 0.1,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.stats', start: 'top 85%' },
+      },
+    )
+
+    // ── Tarjetas escalonadas ──
     gsap.fromTo(
       '[data-card]',
       { opacity: 0, y: 40 },
@@ -529,9 +585,9 @@ const ejes = [
         opacity: 1,
         y: 0,
         duration: 0.6,
-        stagger: 0.14,
+        stagger: 0.13,
         ease: 'power3.out',
-        scrollTrigger: { trigger: '.grid', start: 'top 82%' },
+        scrollTrigger: { trigger: '.grid', start: 'top 84%' },
       },
     )
   }
