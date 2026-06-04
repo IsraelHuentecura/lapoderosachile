@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro'
+import Barrio from '../components/Barrio.astro'
 
 // Enlace a redes. Cambia el handle si el de Instagram es distinto.
 const INSTAGRAM_URL = 'https://www.instagram.com/lapoderosachile'
@@ -158,6 +159,11 @@ const ejes = [
         Desde el barrio, con el barrio y para el barrio.
       </p>
     </section>
+
+    <!-- ░░ BARRIO ░░ -->
+    <div class="barrio-band" aria-hidden="false">
+      <Barrio />
+    </div>
 
     <!-- ░░ CTA ░░ -->
     <section class="cta" data-reveal>
@@ -422,9 +428,19 @@ const ejes = [
     color: var(--rojo);
   }
 
+  /* ░░ BARRIO (banda a todo el ancho) ░░ */
+  .barrio-band {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: clamp(1rem, 4vw, 2.5rem);
+    line-height: 0;
+    overflow: hidden;
+    border-bottom: 8px solid var(--rojo);
+  }
+
   /* ░░ CTA ░░ */
   .cta {
-    margin-top: clamp(2rem, 5vw, 3rem);
+    margin-top: 0;
     background: var(--negro);
     color: var(--crema);
     border-radius: 10px;
@@ -464,6 +480,7 @@ const ejes = [
   :global(.gsap-ready) [data-reveal],
   :global(.gsap-ready) [data-card],
   :global(.gsap-ready) [data-stat],
+  :global(.gsap-ready) [data-casa],
   :global(.gsap-ready) .manifiesto__texto :global(.word) {
     opacity: 0;
   }
@@ -474,6 +491,7 @@ const ejes = [
     :global(.gsap-ready) [data-reveal],
     :global(.gsap-ready) [data-card],
     :global(.gsap-ready) [data-stat],
+    :global(.gsap-ready) [data-casa],
     :global(.gsap-ready) .manifiesto__texto :global(.word) {
       opacity: 1;
     }
@@ -509,7 +527,7 @@ const ejes = [
 
   if (reduce) {
     gsap.set(
-      '[data-hero-item], [data-hero-logo], [data-reveal], [data-card], [data-stat], .word',
+      '[data-hero-item], [data-hero-logo], [data-reveal], [data-card], [data-stat], [data-casa], .word',
       { opacity: 1 },
     )
   } else {
@@ -590,5 +608,51 @@ const ejes = [
         scrollTrigger: { trigger: '.grid', start: 'top 84%' },
       },
     )
+
+    // ── Barrio: las casas se levantan al entrar en pantalla ──
+    gsap.fromTo(
+      '[data-casa]',
+      { opacity: 0, yPercent: 22 },
+      {
+        opacity: 1,
+        yPercent: 0,
+        duration: 0.7,
+        stagger: 0.05,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: '.barrio-band', start: 'top 92%' },
+      },
+    )
+
+    // ── Luces del barrio: ventanas encendidas que titilan ──
+    gsap.to('[data-win="on"]', {
+      opacity: 0.3,
+      duration: 1.3,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      stagger: { each: 0.25, from: 'random' },
+    })
+
+    // ── Ropa del tendedero ondeando ──
+    gsap.to('[data-ropa]', {
+      rotation: 8,
+      duration: 1.7,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      stagger: { each: 0.18 },
+    })
+
+    // ── Parallax sutil del skyline ──
+    gsap.to('.barrio', {
+      yPercent: -10,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.barrio-band',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: true,
+      },
+    })
   }
 </script>

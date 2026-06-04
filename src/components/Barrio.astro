@@ -1,0 +1,210 @@
+---
+// Skyline de barrio / población: casitas apiladas estilo stencil-afiche,
+// con tanques de agua, antenas y un tendedero. Las "luces" (ventanas
+// encendidas) y la ropa se animan con GSAP desde la home.
+
+interface Casa {
+  x: number
+  w: number
+  h: number
+  puerta?: boolean
+  tanque?: boolean
+  antena?: boolean
+}
+
+const BASE = 300 // línea de suelo (viewBox 1200x300)
+
+const casas: Casa[] = [
+  { x: 0, w: 118, h: 162, puerta: true },
+  { x: 120, w: 92, h: 214, tanque: true },
+  { x: 214, w: 138, h: 128 },
+  { x: 354, w: 104, h: 188, antena: true },
+  { x: 460, w: 128, h: 150, puerta: true },
+  { x: 590, w: 98, h: 232, tanque: true },
+  { x: 690, w: 150, h: 140 },
+  { x: 842, w: 110, h: 196, antena: true },
+  { x: 954, w: 130, h: 166, puerta: true },
+  { x: 1086, w: 114, h: 206, tanque: true },
+]
+
+interface Win {
+  x: number
+  y: number
+  w: number
+  h: number
+  on: boolean
+}
+
+// Genera una grilla de ventanas dentro del cuerpo de cada casa.
+function ventanas(c: Casa, idx: number): Win[] {
+  const ww = 14
+  const wh = 18
+  const gapX = 12
+  const gapY = 16
+  const padX = 16
+  const padTop = c.tanque || c.antena ? 26 : 18
+  const top = BASE - c.h + padTop
+  const cols = Math.max(1, Math.floor((c.w - padX * 2 + gapX) / (ww + gapX)))
+  const usable = c.puerta ? 64 : 26 // dejar zona de puerta/zócalo
+  const rows = Math.max(1, Math.floor((c.h - padTop - usable + gapY) / (wh + gapY)))
+  const totalW = cols * ww + (cols - 1) * gapX
+  const startX = c.x + (c.w - totalW) / 2
+  const out: Win[] = []
+  for (let r = 0; r < rows; r++) {
+    for (let col = 0; col < cols; col++) {
+      // patrón pseudo-aleatorio determinista para "encender" algunas
+      const on = (idx * 7 + r * 3 + col * 5) % 6 === 0
+      out.push({
+        x: startX + col * (ww + gapX),
+        y: top + r * (wh + gapY),
+        w: ww,
+        h: wh,
+        on,
+      })
+    }
+  }
+  return out
+}
+
+// Ropa del tendedero (entre dos casas altas).
+const ropa = [
+  { x: 132, color: '#e10600' },
+  { x: 156, color: '#0d0d0d' },
+  { x: 180, color: '#e10600' },
+  { x: 204, color: '#0d0d0d' },
+  { x: 228, color: '#e10600' },
+]
+---
+
+<svg
+  class="barrio"
+  viewBox="0 0 1200 300"
+  preserveAspectRatio="xMidYMax slice"
+  role="img"
+  aria-label="Ilustración de un barrio popular"
+>
+  <!-- tendedero -->
+  <line
+    class="barrio__cable"
+    x1="120"
+    y1="92"
+    x2="248"
+    y2="78"
+    stroke="#0d0d0d"
+    stroke-width="2"></line>
+  {
+    ropa.map((p, i) => (
+      <rect
+        class="ropa"
+        data-ropa
+        x={p.x}
+        y={88 - i}
+        width="15"
+        height="22"
+        rx="2"
+        fill={p.color}
+        style={`transform-origin: ${p.x + 7.5}px ${88 - i}px`}
+      />
+    ))
+  }
+
+  <!-- casas -->
+  {
+    casas.map((c, idx) => (
+      <g class="casa" data-casa>
+        <rect
+          x={c.x}
+          y={BASE - c.h}
+          width={c.w}
+          height={c.h}
+          fill="#0d0d0d"
+        />
+        {/* franja de techo */}
+        <rect x={c.x} y={BASE - c.h} width={c.w} height="6" fill="#e10600" />
+        {/* tanque de agua */}
+        {c.tanque && (
+          <g>
+            <rect
+              x={c.x + c.w / 2 - 16}
+              y={BASE - c.h - 30}
+              width="32"
+              height="30"
+              rx="4"
+              fill="#0d0d0d"
+            />
+            <rect
+              x={c.x + c.w / 2 - 16}
+              y={BASE - c.h - 30}
+              width="32"
+              height="6"
+              fill="#e10600"
+            />
+          </g>
+        )}
+        {/* antena */}
+        {c.antena && (
+          <g stroke="#0d0d0d" stroke-width="2.5" fill="none">
+            <line
+              x1={c.x + c.w / 2}
+              y1={BASE - c.h}
+              x2={c.x + c.w / 2}
+              y2={BASE - c.h - 34}
+            />
+            <line
+              x1={c.x + c.w / 2 - 12}
+              y1={BASE - c.h - 24}
+              x2={c.x + c.w / 2 + 12}
+              y2={BASE - c.h - 30}
+            />
+            <line
+              x1={c.x + c.w / 2 - 12}
+              y1={BASE - c.h - 16}
+              x2={c.x + c.w / 2 + 12}
+              y2={BASE - c.h - 22}
+            />
+          </g>
+        )}
+        {/* ventanas */}
+        {ventanas(c, idx).map((w) => (
+          <rect
+            class={w.on ? 'win win--on' : 'win'}
+            data-win={w.on ? 'on' : undefined}
+            x={w.x}
+            y={w.y}
+            width={w.w}
+            height={w.h}
+            rx="1.5"
+          />
+        ))}
+        {/* puerta */}
+        {c.puerta && (
+          <rect
+            x={c.x + c.w / 2 - 12}
+            y={BASE - 50}
+            width="24"
+            height="50"
+            rx="2"
+            fill="#e10600"
+          />
+        )}
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .barrio {
+    display: block;
+    width: 100%;
+    height: clamp(150px, 22vw, 260px);
+  }
+  .win {
+    fill: #4a4a4a;
+  }
+  .win--on {
+    fill: #f2c14e;
+  }
+  .ropa {
+    will-change: transform;
+  }
+</style>
