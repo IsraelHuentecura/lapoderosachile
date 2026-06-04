@@ -57,15 +57,7 @@ const ejes = [
   <!-- ░░ HERO ░░ -->
   <header class="hero" data-hero>
     <div class="hero__inner">
-      <img
-        class="hero__logo"
-        data-hero-logo
-        src="/logo.png"
-        alt="La Poderosa Chile"
-        width="1999"
-        height="1414"
-      />
-      <p class="hero__lema" data-hero-item>La comunidad al servicio de la comunidad</p>
+      <h1 class="hero__lema" data-hero-lema>La comunidad al servicio de la comunidad</h1>
       <p class="lead" data-hero-item>
         Somos parte de <strong>La Poderosa</strong>, un movimiento social
         latinoamericano que organiza los barrios desde la autogestión y la acción
@@ -84,6 +76,14 @@ const ejes = [
         Síguenos en Instagram
       </a>
     </div>
+    <img
+      class="hero__logo"
+      data-hero-logo
+      src="/logo.png"
+      alt="La Poderosa Chile"
+      width="1999"
+      height="1414"
+    />
     <div class="hero__franja" aria-hidden="true"></div>
   </header>
 
@@ -190,32 +190,54 @@ const ejes = [
     position: relative;
     background: #d8d3c8 url('/ladrillo.svg') repeat;
     background-size: 220px auto;
-    padding: clamp(3rem, 8vw, 6rem) 1.5rem clamp(3.5rem, 8vw, 5.5rem);
+    min-height: clamp(440px, 80vh, 660px);
+    display: grid;
+    place-items: center;
+    padding: clamp(3.5rem, 9vw, 6.5rem) 1.5rem clamp(5.5rem, 11vw, 8rem);
     text-align: center;
     overflow: hidden;
-  }
-  /* funde el fondo blanco del logo sobre la pared (deja negro y rojo) */
-  .hero__logo {
-    mix-blend-mode: multiply;
   }
   .hero__inner {
     position: relative;
     z-index: 1;
-    max-width: 820px;
-    margin: 0 auto;
+    max-width: 900px;
   }
+  /* logo discreto, como firma en la esquina inferior derecha */
   .hero__logo {
-    width: min(100%, 640px);
+    position: absolute;
+    right: clamp(0.75rem, 3vw, 2.75rem);
+    bottom: clamp(1.25rem, 4vw, 2.75rem);
+    width: clamp(108px, 16vw, 210px);
     height: auto;
-    margin: 0 auto 0.75rem;
-    display: block;
+    opacity: 0.9;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
     will-change: transform, opacity;
   }
+  /* protagonista del hero */
   .hero__lema {
     font-family: var(--marca);
-    font-size: clamp(1.3rem, 4vw, 2.1rem);
-    line-height: 1.2;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    line-height: 1.08;
+    letter-spacing: 0.01em;
     color: var(--negro);
+    max-width: 15ch;
+    margin: 0 auto;
+  }
+  /* máscara para la animación palabra-por-palabra */
+  .hero__lema :global(.w-wrap) {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0 0.06em 0.12em;
+  }
+  .hero__lema :global(.w) {
+    display: inline-block;
+    will-change: transform;
+  }
+  .hero__lema :global(.w--rojo) {
+    color: var(--rojo);
   }
   .hero__lema::after {
     content: '';
@@ -484,6 +506,7 @@ const ejes = [
 
   /* Estados iniciales para animar (solo con JS y sin reduced-motion) */
   :global(.gsap-ready) [data-hero-item],
+  :global(.gsap-ready) [data-hero-lema],
   :global(.gsap-ready) [data-hero-logo],
   :global(.gsap-ready) [data-reveal],
   :global(.gsap-ready) [data-card],
@@ -495,6 +518,7 @@ const ejes = [
 
   @media (prefers-reduced-motion: reduce) {
     :global(.gsap-ready) [data-hero-item],
+    :global(.gsap-ready) [data-hero-lema],
     :global(.gsap-ready) [data-hero-logo],
     :global(.gsap-ready) [data-reveal],
     :global(.gsap-ready) [data-card],
@@ -533,24 +557,50 @@ const ejes = [
       .join(' ')
   }
 
+  // Parte el lema del hero en palabras dentro de una máscara, para que cada
+  // una "suba" desde abajo. Resalta "comunidad" en rojo.
+  const lema = document.querySelector<HTMLElement>('[data-hero-lema]')
+  if (lema) {
+    lema.innerHTML = lema.textContent!
+      .trim()
+      .split(/\s+/)
+      .map((w) => {
+        const rojo = w.toLowerCase().startsWith('comunidad')
+        return `<span class="w-wrap"><span class="w${rojo ? ' w--rojo' : ''}">${w}</span></span>`
+      })
+      .join(' ')
+  }
+
   if (reduce) {
     gsap.set(
-      '[data-hero-item], [data-hero-logo], [data-reveal], [data-card], [data-stat], [data-casa], .word',
+      '[data-hero-item], [data-hero-lema], [data-hero-logo], [data-reveal], [data-card], [data-stat], [data-casa], .word, .hero__lema .w',
       { opacity: 1 },
     )
   } else {
-    // ── Intro del hero (fromTo para no heredar el opacity:0 del CSS) ──
+    // ── Intro del hero ──
+    // El lema es la estrella: cada palabra sube desde una máscara con un
+    // rebote, resaltando "comunidad" en rojo. Luego entran el texto, el
+    // botón y, discreto, el logo en la esquina.
+    gsap.set('[data-hero-lema]', { opacity: 1 })
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } })
     intro
-      .fromTo(
-        '[data-hero-logo]',
-        { opacity: 0, scale: 0.86, y: 12 },
-        { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: 'power4.out' },
-      )
+      .from('.hero__lema .w', {
+        yPercent: 120,
+        rotation: 7,
+        duration: 0.9,
+        stagger: 0.075,
+        ease: 'back.out(1.7)',
+      })
       .fromTo(
         '[data-hero-item]',
         { opacity: 0, y: 26 },
         { opacity: 1, y: 0, duration: 0.7, stagger: 0.13 },
+        '-=0.35',
+      )
+      .fromTo(
+        '[data-hero-logo]',
+        { opacity: 0, scale: 0.9, y: 14 },
+        { opacity: 0.9, scale: 1, y: 0, duration: 0.9, ease: 'power3.out' },
         '-=0.5',
       )
 
